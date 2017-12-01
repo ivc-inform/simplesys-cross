@@ -94,6 +94,7 @@ lazy val `servlet-wrapper` = crossProject(JSPlatform, JVMPlatform)
       )
   )
   .jsSettings(scalajSCommonOption)
+  .dependsOn(`circe-extender`)
 
 lazy val `servlet-wrapperJS` = `servlet-wrapper`.js
 lazy val `servlet-wrapperJVM` = `servlet-wrapper`.jvm
