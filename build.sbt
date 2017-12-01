@@ -32,22 +32,26 @@ lazy val `circe-extender` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .settings(CommonSettings.publishSettings)
   .settings(
-      name := "circe-extender"
-  )
-  .settings(CommonSettings.defaultSettings)
-  .jvmSettings(
+      name := "circe-extender",
       libraryDependencies ++= Seq(
           CommonDeps.akkaHttpCirce,
           CommonDeps.scalaTest
       )
   )
+  .settings(CommonSettings.defaultSettings)
+  .jvmSettings(
+      //      libraryDependencies ++= Seq(
+      //          CommonDeps.akkaHttpCirce,
+      //          CommonDeps.scalaTest
+      //      )
+  )
   .jsSettings(scalajSCommonOption)
   .jsSettings(
-      libraryDependencies ++= Seq(
-          CommonDepsScalaJS.circeCore.value,
-          CommonDepsScalaJS.circeGeneric.value,
-          CommonDepsScalaJS.circeParser.value,
-      )
+      //      libraryDependencies ++= Seq(
+      //          CommonDepsScalaJS.circeCore.value,
+      //          CommonDepsScalaJS.circeGeneric.value,
+      //          CommonDepsScalaJS.circeParser.value,
+      //      )
   )
   .dependsOn(`common-cross`)
 
