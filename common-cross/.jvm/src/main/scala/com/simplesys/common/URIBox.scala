@@ -4,7 +4,7 @@ import java.io.{File, InputStreamReader}
 import java.net.{URI ⇒ JURI}
 
 import com.simplesys.common
-import com.simplesys.common.JVM.Strings._
+import com.simplesys.common.Strings._
 import com.simplesys.common.exception.ExtThrowable
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory

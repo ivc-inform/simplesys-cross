@@ -3,10 +3,14 @@ package com.simplesys.common
 import java.io.{File, InputStream}
 import java.math.BigInteger
 import java.text.{DecimalFormat, DecimalFormatSymbols}
+import java.time.{LocalDate, LocalDateTime, LocalTime, ZoneId}
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.{ISO_LOCAL_DATE, ISO_LOCAL_DATE_TIME, ISO_LOCAL_TIME}
 
 import scala.io.Codec.UTF8
 import scala.util.Try
 import com.simplesys.common.equality.SimpleEquality._
+import com.simplesys.common.Time._
 
 
 private[common] abstract class AbstractIterator[+A] extends Iterator[A]
@@ -232,6 +236,7 @@ object Strings {
         def asLong: Long = if (string.isNull) 0 else string.toLong
         def asLongOpt: Option[Long] = if (string.isNull || string.isEmpty) None else Some(string.asLong)
         def asNumber: BigDecimal = if (string.isNull) 0 else BigDecimal(string)
+        def delQuote: String = Strings.delQuote(string)
         def asDouble: Double = {
             if (string.isNull) 0
             else {
@@ -289,4 +294,64 @@ object Strings {
     }
 
     val newLine = NewLine()
+
+    implicit class stringToDate(val string: String) {
+        def toLocalDateTime(dateTimeFormatter: DateTimeFormatter = SS_LOCAL_DATE_TIME): LocalDateTime = {
+            if (string.contains("Z")) {
+                val systemZone = ZoneId.systemDefault()
+                val localDateTime = LocalDateTime.parse(string, SS_LOCAL_DATE_TIME_Z)
+                val currentOffsetForMyZone = systemZone.getRules.getOffset(localDateTime)
+                localDateTime.plusSeconds(currentOffsetForMyZone.getTotalSeconds)
+            }
+            else if (string.contains("T"))
+                LocalDateTime.parse(string, ISO_LOCAL_DATE_TIME)
+            else
+                LocalDateTime.parse(string, dateTimeFormatter)
+
+        }
+        def toLocalDate(dateTimeFormatter: DateTimeFormatter = ISO_LOCAL_DATE): LocalDate = LocalDate.parse(string, dateTimeFormatter)
+        def toLocalTime(dateTimeFormatter: DateTimeFormatter = ISO_LOCAL_TIME): LocalTime = LocalTime.parse(string, dateTimeFormatter)
+    }
+
+    def localDateTime2Str(localDateTime: LocalDateTime, dateTimeFormatter: DateTimeFormatter = SS_LOCAL_DATE_TIME): String = localDateTime.format(dateTimeFormatter)
+    def utcDateTime2Str(utcDateTime: LocalDateTime, dateTimeFormatter: DateTimeFormatter = SS_LOCAL_DATE_TIME): String = {
+        val systemZone = ZoneId.systemDefault()
+        val currentOffsetForMyZone = systemZone.getRules.getOffset(utcDateTime)
+
+        utcDateTime.plusSeconds(currentOffsetForMyZone.getTotalSeconds).format(dateTimeFormatter)
+    }
+
+    implicit class LocalDateTimeOpt(localDateTime: LocalDateTime) {
+        def getMillis: Long = localDateTime.atZone(ZoneId.systemDefault()).toInstant.toEpochMilli
+        def asString(dateTimeFormatter: DateTimeFormatter = SS_LOCAL_DATE_TIME): String = localDateTime2Str(localDateTime, dateTimeFormatter)
+
+    }
+
+    implicit class LonfToLocalDateTime(millis: Long) {
+
+        import java.time.{Instant, ZoneId}
+
+        def toLocalDateTime: LocalDateTime = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault).toLocalDateTime
+        def toLocalDate: LocalDate = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault).toLocalDate
+        def toLocalTime: LocalTime = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault).toLocalTime
+    }
+
+    implicit def StringOpts2String(strOpts: NewLine): String = strOpts.asString
+
+    object fill {
+        def apply(length: Int, str: String): String = strEmpty.fill(length, str)
+        def apply(length: Int, str: String, comment: String): String = strEmpty.fill(length, str, comment)
+        def apply(comment: String): String = strEmpty.fill(commentLength, "/", comment)
+    }
+
+    implicit class NewLine1(val x: newLine.type) {
+        def newLine: String = x.toString + lineSeparator
+    }
+
+    val rigthRuleSlash = "/"
+    val plus = "".space + "+".space
+
+    object spaces {
+        def apply(length: Int) = strEmpty spaces length
+    }
 }

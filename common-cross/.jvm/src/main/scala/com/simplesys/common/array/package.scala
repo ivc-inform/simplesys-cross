@@ -1,7 +1,7 @@
 package com.simplesys.common
 
 import scala.reflect.ClassTag
-import com.simplesys.common.JVM.Strings._
+import com.simplesys.common.Strings._
 
 package object array {
     implicit def any2Array[T: ClassTag](value: T): Array[T] = Array(value)

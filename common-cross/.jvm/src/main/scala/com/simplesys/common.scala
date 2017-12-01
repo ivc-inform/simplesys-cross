@@ -7,7 +7,7 @@ import java.io.{InputStreamReader, InputStream, File}
 import javax.xml.transform.stream.StreamSource
 import java.net.{URI, URL}
 import com.simplesys.common.exception.ExtThrowable
-import com.simplesys.common.JVM.Strings._
+import com.simplesys.common.Strings._
 
 package object simplesys {
     def getGUID = UUID.randomUUID().toString.toUpperCase

@@ -1,6 +1,6 @@
 package com.simplesys.common
 
-import com.simplesys.common.JVM.Strings._
+import com.simplesys.common.Strings._
 
 object URI extends ((String, String, String, String, String) => String) {
 
