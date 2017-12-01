@@ -1,15 +1,18 @@
 package com.simplesys.common
 
-import java.io.{Reader, InputStreamReader, InputStream, File}
-import java.net.{URI => JURI}
-import com.simplesys.log.Logging
-import com.simplesys.common.Strings._
-import scala.util.control.Breaks._
-import com.simplesys.common.exception.ExtThrowable
-import scala.io.Source
-import com.simplesys.common
+import java.io.{File, InputStreamReader}
+import java.net.{URI ⇒ JURI}
 
-case class URISBox(message: String, uris: JURI*) extends UR with Logging {
+import com.simplesys.common
+import com.simplesys.common.Strings._
+import com.simplesys.common.exception.ExtThrowable
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
+
+import scala.util.control.Breaks._
+
+case class URISBox(message: String, uris: JURI*) extends UR  {
+    private val logger = Logger(LoggerFactory.getLogger(this.getClass))
     override def toString: String = {
         uris foreach {
             uri =>
@@ -29,7 +32,9 @@ case class URISBox(message: String, uris: JURI*) extends UR with Logging {
     }
 }
 
-case class URIBox(uri: Option[JURI], message: String) extends UR with Logging {
+case class URIBox(uri: Option[JURI], message: String) extends UR {
+    private val logger = Logger(LoggerFactory.getLogger(this.getClass))
+    
     override def toString = {
         uri match {
             case Some(uri) =>

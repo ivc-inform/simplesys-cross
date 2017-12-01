@@ -1,13 +1,16 @@
 package com.simplesys.common
 
-import java.io.{InputStreamReader, Reader, InputStream, File}
-import java.net.{URL => JURL}
-import com.simplesys.log.Logging
+import java.io.{File, InputStreamReader}
+import java.net.{URL ⇒ JURL}
+
+import com.simplesys.common
 import com.simplesys.common.Strings._
 import com.simplesys.common.exception.ExtThrowable
-import com.simplesys.common
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
 
-case class URLSBox(message: String, urls: JURL*) extends UR with Logging {
+case class URLSBox(message: String, urls: JURL*) extends UR{
+    private val logger = Logger(LoggerFactory.getLogger(this.getClass))
     override def toString: String = {
         urls foreach {
             url =>
@@ -36,7 +39,9 @@ case class URLSBox(message: String, urls: JURL*) extends UR with Logging {
     }
 }
 
-case class URLBox(url: Option[JURL], message: String) extends UR with Logging {
+case class URLBox(url: Option[JURL], message: String) extends UR {
+    private val logger = Logger(LoggerFactory.getLogger(this.getClass))
+
     override def toString = {
         url match {
             case Some(url) =>
