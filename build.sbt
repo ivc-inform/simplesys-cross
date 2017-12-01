@@ -27,9 +27,9 @@ lazy val circeExtender = crossProject(JSPlatform, JVMPlatform)
       )
   )
   .jsSettings(
-      crossTarget in fastOptJS := (sourceDirectory in Compile).value / "javascriptJS",
-      crossTarget in fullOptJS := (sourceDirectory in Compile).value / "javascriptJS",
-      crossTarget in packageJSDependencies := (sourceDirectory in Compile).value / "javascriptJS",
+//      crossTarget in fastOptJS := (sourceDirectory in Compile).value / "javascriptJS",
+//      crossTarget in fullOptJS := (sourceDirectory in Compile).value / "javascriptJS",
+//      crossTarget in packageJSDependencies := (sourceDirectory in Compile).value / "javascriptJS",
       libraryDependencies ++= Seq(
           "org.scalatest" %%% "scalatest" % "3.0.4" % Test
       ),
