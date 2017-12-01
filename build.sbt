@@ -49,10 +49,7 @@ lazy val `circe-extender` = crossProject(JSPlatform, JVMPlatform)
           CommonDepsScalaJS.circeParser.value,
       )
   )
-  .jvmConfigure {
-      project ⇒
-          project dependsOn `common-crossJVM`
-  }
+  .dependsOn(`common-cross`) 
 
 lazy val `circe-extenderJS` = `circe-extender`.js
 lazy val `circe-extenderJVM` = `circe-extender`.jvm
