@@ -10,8 +10,8 @@ lazy val root = crossProject(JSPlatform, JVMPlatform)
           name := CommonSettings.settingValues.name
       ) ++ CommonSettings.defaultSettings)
   )
-  .aggregate(`circe-extender`, `common-cross`)
-  .dependsOn(`circe-extender`, `common-cross`)
+  .aggregate(`circe-extender`, `common-cross`, `servlet-wrapper`)
+  .dependsOn(`circe-extender`, `common-cross`, `servlet-wrapper`)
 
 val scalajSCommonOption = Seq(
     //      crossTarget in fastOptJS := (sourceDirectory in Compile).value / "javascriptJS",
@@ -49,7 +49,7 @@ lazy val `circe-extender` = crossProject(JSPlatform, JVMPlatform)
           CommonDepsScalaJS.circeParser.value,
       )
   )
-  .dependsOn(`common-cross`) 
+  .dependsOn(`common-cross`)
 
 lazy val `circe-extenderJS` = `circe-extender`.js
 lazy val `circe-extenderJVM` = `circe-extender`.jvm
@@ -75,6 +75,24 @@ lazy val `common-cross` = crossProject(JSPlatform, JVMPlatform)
 
 lazy val `common-crossJS` = `common-cross`.js
 lazy val `common-crossJVM` = `common-cross`.jvm
+
+lazy val `servlet-wrapper` = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .settings(CommonSettings.publishSettings)
+  .settings(
+      name := "servlet-wrapper"
+  )
+  .settings(CommonSettings.defaultSettings)
+  .jvmSettings(
+      libraryDependencies ++= Seq(
+          CommonDeps.scalaLogging,
+          CommonDeps.scalaTest
+      )
+  )
+  .jsSettings(scalajSCommonOption)
+
+lazy val `servlet-wrapperJS` = `servlet-wrapper`.js
+lazy val `servlet-wrapperJVM` = `servlet-wrapper`.jvm
 
 
 
