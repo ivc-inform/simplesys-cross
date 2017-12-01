@@ -8,7 +8,7 @@ object CommonSettings {
         val name = "circe-extender"
         val version = "1.0.0.5-SNAPSHOT"
         val scalaVersion = "2.12.4"
-        val organization = "com.simplesys"
+        val organization = "com.simplesys.cross"
         val scalacOptions = Seq(
             "-feature",
             "-language:higherKinds",
