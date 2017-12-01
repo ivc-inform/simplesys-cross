@@ -281,4 +281,12 @@ object Strings {
 
         def like(list: Seq[String]): Boolean = list.exists(item => string.indexOf(item) != -1)
     }
+
+    object NewLine {
+        def apply(string: String) = lineSeparator + string
+        def apply() = lineSeparator
+        override def toString = lineSeparator
+    }
+
+    val newLine = NewLine()
 }

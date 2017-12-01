@@ -92,13 +92,6 @@ object Strings {
         def asString = (new DecimalFormat("########################################.####################")).format(value)
     }
 
-    object NewLine {
-        def apply(string: String) = lineSeparator + string
-        def apply() = lineSeparator
-        override def toString = lineSeparator
-    }
-
-    val newLine = NewLine()
     val rigthRuleSlash = "/"
     val plus = "".space + "+".space
 
