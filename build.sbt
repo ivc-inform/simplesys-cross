@@ -42,6 +42,13 @@ lazy val `circe-extender` = crossProject(JSPlatform, JVMPlatform)
       )
   )
   .jsSettings(scalajSCommonOption)
+  .jsSettings(
+      libraryDependencies ++= Seq(
+          CommonDepsScalaJS.circeCore.value,
+          CommonDepsScalaJS.circeGeneric.value,
+          CommonDepsScalaJS.circeParser.value,
+      )
+  )
   .jvmConfigure {
       project ⇒
           project dependsOn `common-crossJVM`

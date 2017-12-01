@@ -78,7 +78,7 @@ object CommonDeps {
         val utilEvalVersion = "6.43.0"
         val configWrapperVersion = "0.4.4"
 
-        val circeVersion = "0.9.0-M2"
+        val circeVersion = "0.8.0"
     }
 }
 
