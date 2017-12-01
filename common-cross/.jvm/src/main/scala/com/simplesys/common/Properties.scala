@@ -3,7 +3,7 @@ package com.simplesys.common
 import java.io._
 import java.util.{Properties ⇒ JProperties}
 
-import com.simplesys.common.Strings._
+import com.simplesys.common.JVM.Strings._
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 

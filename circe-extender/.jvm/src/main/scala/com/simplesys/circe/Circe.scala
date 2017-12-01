@@ -2,7 +2,7 @@ package com.simplesys.circe
 
 import java.time.LocalDateTime
 
-import com.simplesys.common.Strings._
+import com.simplesys.common.JVM.Strings._
 import io.circe.Json._
 import io.circe.{HCursor, Json, JsonObject, Printer}
 

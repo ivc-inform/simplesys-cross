@@ -1,6 +1,6 @@
 import com.simplesys.log.Logging
 import junit.framework.TestCase
-import com.simplesys.common.Strings._
+import com.simplesys.common.JVM.Strings._
 import com.simplesys.common._
 
 class TestJUnit extends TestCase with Logging {

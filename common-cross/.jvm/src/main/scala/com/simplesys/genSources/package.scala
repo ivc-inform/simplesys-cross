@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-import com.simplesys.common.Strings._
+import com.simplesys.common.JVM.Strings._
 
 package object genSources {
     def getDateNowStr: String = {

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoField._
 import java.util.Locale
 
-import com.simplesys.common.Strings._
+import com.simplesys.common.JVM.Strings._
 
 
 object Time {

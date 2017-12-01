@@ -1,16 +1,16 @@
-package com.simplesys.common
+package com.simplesys.common.JVM
 
 import java.io.{File, InputStream}
 import java.math.BigInteger
-import java.text.{DateFormat, DecimalFormat, DecimalFormatSymbols, SimpleDateFormat}
-import java.time.format.DateTimeFormatter
+import java.text.{DecimalFormat, DecimalFormatSymbols}
 import java.time._
+import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter._
 
+import com.simplesys.common.Time._
 import com.simplesys.common.equality.SimpleEquality._
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang3.StringEscapeUtils
-import com.simplesys.common.Time._
 
 import scala.io.Codec._
 import scala.util.Try
@@ -108,8 +108,7 @@ object Strings {
 
     implicit class LonfToLocalDateTime(millis: Long) {
 
-        import java.time.Instant
-        import java.time.ZoneId
+        import java.time.{Instant, ZoneId}
 
         def toLocalDateTime: LocalDateTime = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault).toLocalDateTime
         def toLocalDate: LocalDate = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault).toLocalDate
