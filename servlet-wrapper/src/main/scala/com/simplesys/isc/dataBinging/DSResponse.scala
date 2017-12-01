@@ -19,3 +19,5 @@ case class DSResponseFailureEx(message: String, stackTrace: String) extends DSRe
 
     override val data = fromJsonObject(JsonObject.singleton("error", fromJsonObject(JsonObject.fromIterable(Seq("message" → fromString(message), "stackTrace" → fromString(stackTrace))))))
 }
+
+case class Response(response: DSResponse)
