@@ -22,7 +22,7 @@ lazy val circeExtender = crossProject(JSPlatform, JVMPlatform)
   .settings(CommonSettings.defaultSettings)
   .jvmSettings(
       libraryDependencies ++= Seq(
-          "org.scalatest" %% "scalatest" % "3.0.4" % Test
+          CommonDeps.scalaTest
       )
   )
   .jsSettings(
