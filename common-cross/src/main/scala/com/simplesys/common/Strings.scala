@@ -27,7 +27,4 @@ object Strings {
         else
             s
     }
-
-
-
 }

@@ -7,7 +7,7 @@ import java.time._
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter._
 
-import com.simplesys.common.Time._
+import Time._
 import com.simplesys.common.equality.SimpleEquality._
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang3.StringEscapeUtils
