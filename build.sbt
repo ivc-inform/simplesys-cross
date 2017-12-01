@@ -10,10 +10,25 @@ lazy val root = crossProject(JSPlatform, JVMPlatform)
           name := CommonSettings.settingValues.name
       ) ++ CommonSettings.defaultSettings)
   )
-  .aggregate(circeExtender)
-  .dependsOn(circeExtender)
+  .aggregate(`circe-extender`, `common-cross`)
+  .dependsOn(`circe-extender`, `common-cross`)
 
-lazy val circeExtender = crossProject(JSPlatform, JVMPlatform)
+val scalajSCommonOption = Seq(
+    //      crossTarget in fastOptJS := (sourceDirectory in Compile).value / "javascriptJS",
+    //      crossTarget in fullOptJS := (sourceDirectory in Compile).value / "javascriptJS",
+    //      crossTarget in packageJSDependencies := (sourceDirectory in Compile).value / "javascriptJS",
+    libraryDependencies ++= Seq(
+        CommonDepsScalaJS.scalaTest.value
+    ),
+    scalacOptions ++= {
+        if (scalaJSVersion.startsWith("0.6."))
+            Seq("-P:scalajs:sjsDefinedByDefault")
+        else
+            Nil
+    }
+)
+
+lazy val `circe-extender` = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .settings(CommonSettings.publishSettings)
   .settings(
@@ -26,23 +41,31 @@ lazy val circeExtender = crossProject(JSPlatform, JVMPlatform)
           CommonDeps.scalaTest
       )
   )
-  .jsSettings(
-//      crossTarget in fastOptJS := (sourceDirectory in Compile).value / "javascriptJS",
-//      crossTarget in fullOptJS := (sourceDirectory in Compile).value / "javascriptJS",
-//      crossTarget in packageJSDependencies := (sourceDirectory in Compile).value / "javascriptJS",
-      libraryDependencies ++= Seq(
-          "org.scalatest" %%% "scalatest" % "3.0.4" % Test
-      ),
-      scalacOptions ++= {
-          if (scalaJSVersion.startsWith("0.6."))
-              Seq("-P:scalajs:sjsDefinedByDefault")
-          else
-              Nil
-      }
-  )
+  .jsSettings(scalajSCommonOption)
 
-lazy val circeExtenderJS = circeExtender.js
-lazy val circeExtenderJVM = circeExtender.jvm
+lazy val `circe-extenderJS` = `circe-extender`.js
+lazy val `circe-extenderJVM` = `circe-extender`.jvm
+
+lazy val `common-cross` = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .settings(CommonSettings.publishSettings)
+  .settings(
+      name := "common-cross"
+  )
+  .settings(CommonSettings.defaultSettings)
+  .jvmSettings(
+      libraryDependencies ++= Seq(
+          CommonDeps.apacheCommonsLang,
+          CommonDeps.apacheCommonsIO,
+          CommonDeps.scalaXml,
+          CommonDeps.scalaReflect.value,
+          CommonDeps.scalaTest
+      )
+  )
+  .jsSettings(scalajSCommonOption)
+
+lazy val `common-crossJS` = `common-cross`.js
+lazy val `common-crossJVM` = `common-cross`.jvm
 
 
 

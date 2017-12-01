@@ -23,9 +23,12 @@ object CommonDeps {
     val akkaAgent = "com.typesafe.akka" %% "akka-agent" % versions.akkaVersion
     val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % versions.akkaVersion % Test
 
+    val apacheCommonsLang = "org.apache.commons" % "commons-lang3" % versions.apacheCommonsLangVersion
+    val apacheCommonsIO = "commons-io" % "commons-io" % versions.apacheCommonsIOVersion
+
     val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.18.2-SNAPSHOT"
     val scalaTest = "org.scalatest" %% "scalatest" % versions.scalaTestVersion % Test
-    
+
     object versions {
         val scalaModulesVersion = "1.0.6"
 
@@ -36,7 +39,7 @@ object CommonDeps {
         val doobieVersion = "0.4.1"
 
         val logbackVersion = "1.2.3"
-                                                                                                                                             
+
         val apacheCommonsLangVersion = "3.4"
 
         val javaxTransactionVersion = "1.1"
