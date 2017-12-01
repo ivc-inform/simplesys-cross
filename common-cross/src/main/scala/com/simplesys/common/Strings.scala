@@ -78,6 +78,9 @@ object Strings {
             case _ => string.map(c => c.toHex + s"(${c})").mkString("\\", "\\", "\\")
         }
 
+        def quoted = "'" + string + "'"
+        def ellipsis = s"$string ..."
+
         def space: String = string + " "
         def plus: String = string + " + "
 
@@ -86,6 +89,10 @@ object Strings {
             for (i <- 0 to length - 1)
                 spc append str
             string + spc.toString()
+        }
+
+        implicit class fltrOpts(val strings: List[String]) {
+            def withOutComment = strings.filter(_.substring(0, 2) != "##")
         }
 
         def fill(length: Int, str: String, comment: String): String = {
@@ -353,5 +360,9 @@ object Strings {
 
     object spaces {
         def apply(length: Int) = strEmpty spaces length
+    }
+
+    implicit class DoubleOpts(val value: Double) {
+        def asString = (new DecimalFormat("########################################.####################")).format(value)
     }
 }

@@ -21,13 +21,7 @@ object Strings {
         def escapeJson = StringEscapeUtils.escapeJson(string)
         def escapeEcmaScript = StringEscapeUtils.escapeEcmaScript(string)
         def dblQuotedJS = "\"" + StringEscapeUtils.escapeEcmaScript(string) + "\""
-        def quoted = "'" + string + "'"
-        def ellipsis = s"$string ..."
         def asInt: Int = if (string.isNull) 0 else string.toInt
-    }
-
-    implicit class fltrOpts(val strings: List[String]) {
-        def withOutComment = strings.filter(_.substring(0, 2) != "##")
     }
 
     implicit class unQuoteString(val string: String) {
@@ -41,10 +35,6 @@ object Strings {
 
     implicit class stringToBigDecimal(string: String) {
         def toBigDecimal: BigDecimal = new java.math.BigDecimal(string.unQuoted)
-    }
-
-    implicit class DoubleOpts(val value: Double) {
-        def asString = (new DecimalFormat("########################################.####################")).format(value)
     }
 
     implicit class RegexEx(sc: StringContext) {
