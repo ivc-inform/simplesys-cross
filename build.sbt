@@ -59,6 +59,7 @@ lazy val `common-cross` = crossProject(JSPlatform, JVMPlatform)
           CommonDeps.apacheCommonsIO,
           CommonDeps.scalaXml,
           CommonDeps.scalaReflect.value,
+          CommonDeps.scalaLogging,
           CommonDeps.scalaTest
       )
   )

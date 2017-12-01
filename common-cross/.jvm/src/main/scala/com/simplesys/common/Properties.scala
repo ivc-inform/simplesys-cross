@@ -1,30 +1,30 @@
 package com.simplesys.common
 
 import java.io._
-import java.util.{Properties => JProperties}
+import java.util.{Properties ⇒ JProperties}
 
 import com.simplesys.common.Strings._
-import com.simplesys.log.Logging
+import com.typesafe.scalalogging.Logger
 
 import scala.collection.JavaConverters._
 import scala.io.Codec._
 import scala.io.Source._
 
-class Properties(protected val proxy: JProperties = new JProperties()) extends Logging {
+class Properties(protected val proxy: JProperties = new JProperties()) extends Logger {
     def apply(key: String): String = (proxy get key) toString
 
     def apply(key: String, default: String): String =
         proxy get key match {
             case null =>
-                logger trace (s"Property key: '${key}'? default value: '${default}'")
+                trace (s"Property key: '${key}'? default value: '${default}'")
                 default
             case value =>
-                logger trace (s"Property key: '${key}' value: '${value}'")
+                trace (s"Property key: '${key}' value: '${value}'")
                 value toString
         }
 
     def logProperties {
-        proxy.asScala foreach (res => logger trace (res._1 + "=" + res._2))
+        proxy.asScala foreach (res => trace (res._1 + "=" + res._2))
     }
 
     def getMap: Map[String, String] = proxy.asScala.map {
@@ -44,16 +44,16 @@ class Properties(protected val proxy: JProperties = new JProperties()) extends L
             url match {
                 case URLBox(Some(url), message) =>
                     load(fromURL(url)(UTF8) reader)
-                    logger trace (s"loadFromUrl: ${url}")
+                    trace (s"loadFromUrl: ${url}")
                     this
                 case URLBox(None, message) =>
-                    logger error (s"loadFromUrl: ${message}")
+                    error (s"loadFromUrl: ${message}")
                     this
             }
         }
         catch {
             case ex: IOException =>
-                logger error (ex)
+                error (ex.getMessage, ex)
                 this
         }
     }
@@ -63,16 +63,16 @@ class Properties(protected val proxy: JProperties = new JProperties()) extends L
             uri match {
                 case URIBox(Some(uri), message) =>
                     load(fromURL(uri toURL)(UTF8) reader)
-                    logger trace (s"loadFromUri: ${uri}")
+                    trace (s"loadFromUri: ${uri}")
                     this
                 case URIBox(None, message) =>
-                    logger error (s"loadFromUri: ${message}")
+                    error (s"loadFromUri: ${message}")
                     this
             }
         }
         catch {
             case ex: IOException =>
-                logger error (ex)
+                error (ex.getMessage, ex)
                 this
         }
     }
@@ -84,7 +84,7 @@ class Properties(protected val proxy: JProperties = new JProperties()) extends L
         }
         catch {
             case ex: IOException =>
-                logger error (ex)
+                error (ex.getMessage, ex)
                 this
         }
     }

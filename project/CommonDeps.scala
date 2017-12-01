@@ -27,6 +27,7 @@ object CommonDeps {
     val apacheCommonsIO = "commons-io" % "commons-io" % versions.apacheCommonsIOVersion
 
     val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.18.2-SNAPSHOT"
+    val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
     val scalaTest = "org.scalatest" %% "scalatest" % versions.scalaTestVersion % Test
 
     object versions {
