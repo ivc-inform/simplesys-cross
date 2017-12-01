@@ -1,7 +1,6 @@
 package com.simplesys.common.JVM
 
 import java.io.InputStream
-import java.text.DecimalFormat
 
 import com.simplesys.common.Strings._
 import org.apache.commons.io.IOUtils
@@ -31,23 +30,6 @@ object Strings {
         def unescapeJson: String = if (string.isNull || string.isEmpty) strEmpty else StringEscapeUtils.unescapeJson(string)
         def unescapeEcmaScript: String = if (string.isNull || string.isEmpty) strEmpty else StringEscapeUtils.unescapeEcmaScript(string)
         def unQuotedJS: String = if (string.isNull || string.isEmpty) strEmpty else StringEscapeUtils.unescapeEcmaScript(string).delQuote
-    }
-
-    implicit class stringToBigDecimal(string: String) {
-        def toBigDecimal: BigDecimal = new java.math.BigDecimal(string.unQuoted)
-    }
-
-    implicit class RegexEx(sc: StringContext) {
-        def rx = new util.matching.Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
-    }
-
-    implicit class OptStringP(optString: Option[String]) {
-        def asInt: Int = {
-            optString match {
-                case None => 0
-                case Some(x) => x.asInt
-            }
-        }
     }
 
     implicit class InputStreamOpts(stream: InputStream) {

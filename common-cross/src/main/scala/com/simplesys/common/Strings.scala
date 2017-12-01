@@ -365,4 +365,21 @@ object Strings {
     implicit class DoubleOpts(val value: Double) {
         def asString = (new DecimalFormat("########################################.####################")).format(value)
     }
+
+    implicit class stringToBigDecimal(string: String) {
+        def toBigDecimal: BigDecimal = new java.math.BigDecimal(string)
+    }
+
+    implicit class RegexEx(sc: StringContext) {
+        def rx = new util.matching.Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
+    }
+
+    implicit class OptStringP(optString: Option[String]) {
+        def asInt: Int = {
+            optString match {
+                case None => 0
+                case Some(x) => x.asInt
+            }
+        }
+    }
 }
