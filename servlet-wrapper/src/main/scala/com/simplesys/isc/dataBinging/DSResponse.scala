@@ -1,7 +1,6 @@
 package com.simplesys.isc.dataBinging
 
-import io.circe.Json._
-import io.circe.{Json, JsonObject}
+import io.circe.Json
 
 trait DSResponseBase {
     val data: Json
