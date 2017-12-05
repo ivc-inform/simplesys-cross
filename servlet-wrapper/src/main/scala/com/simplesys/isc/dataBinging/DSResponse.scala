@@ -10,16 +10,10 @@ trait DSResponseBase {
 }
 case class DSResponse(data: Json, status: Int, totalRows: Option[Int] = None) extends DSResponseBase
 
-case object DSResponseOk extends DSResponseBase {
-    override val data: Json = Json.Null
-    override val status: Int = RPCResponse.statusSuccess
-    override val totalRows: Option[Int] = None
-}
+case class DSResponseOk(data: Json = Json.Null, status: Int = RPCResponse.statusSuccess, totalRows: Option[Int] = None) extends DSResponseBase
 
-case class DSResponseFailureEx(message: String, stackTrace: String) extends DSResponseBase {
-    override val totalRows = None
-    override val status = RPCResponse.statusFailure
-    override val data = fromJsonObject(JsonObject.singleton("error", fromJsonObject(JsonObject.fromIterable(Seq("message" → fromString(message), "stackTrace" → fromString(stackTrace))))))
-}
+case class ErrorData(message: String, stackTrace: String)
+
+case class DSResponseFailureEx(data: Json, status: Int = RPCResponse.statusFailure, totalRows: Option[Int] = None) extends DSResponseBase
 
 case class Response(response: DSResponse)
