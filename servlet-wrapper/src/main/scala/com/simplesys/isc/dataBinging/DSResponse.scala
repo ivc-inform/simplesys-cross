@@ -1,18 +1,20 @@
 package com.simplesys.isc.dataBinging
 
 import io.circe.Json
+import io.circe.generic.auto._
+import io.circe.syntax._
 
-trait DSResponseBase {
-    val data: Json
-    val status: Int
-    val totalRows: Option[Int]
+object DSResponse {
+    def DSResponseOk = DSResponse(data = Json.Null, status = RPCResponse.statusSuccess)
+
+    def DSResponseFailureEx(message: String, stackTrace: String) = DSResponse(data = Error(ErrorData(message, stackTrace)).asJson, status = RPCResponse.statusFailure)
+
 }
-case class DSResponse(data: Json, status: Int, totalRows: Option[Int] = None) extends DSResponseBase
 
-case class DSResponseOk(data: Json = Json.Null, status: Int = RPCResponse.statusSuccess, totalRows: Option[Int] = None) extends DSResponseBase
+case class DSResponse(data: Json, status: Int, totalRows: Option[Int] = None)
+
+case class Error(error: ErrorData)
 
 case class ErrorData(message: String, stackTrace: String)
-
-case class DSResponseFailureEx(data: Json, status: Int = RPCResponse.statusFailure, totalRows: Option[Int] = None) extends DSResponseBase
 
 case class Response(response: DSResponse)
