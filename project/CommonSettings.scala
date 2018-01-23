@@ -5,7 +5,7 @@ import sbt.{Credentials, Path}
 object CommonSettings {
     object settingValues {
 
-        val name = "circe-extender"
+        val name = "cross-projects"
         val version = "1.0.0.5-SNAPSHOT"
         val scalaVersion = "2.12.4"
         val organization = "com.simplesys.cross"
