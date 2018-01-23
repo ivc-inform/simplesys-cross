@@ -14,9 +14,6 @@ lazy val root = crossProject(JSPlatform, JVMPlatform)
   .dependsOn(`circe-extender`, `servlet-wrapper`)
 
 val scalajSCommonOption = Seq(
-    //      crossTarget in fastOptJS := (sourceDirectory in Compile).value / "javascriptJS",
-    //      crossTarget in fullOptJS := (sourceDirectory in Compile).value / "javascriptJS",
-    //      crossTarget in packageJSDependencies := (sourceDirectory in Compile).value / "javascriptJS",
     libraryDependencies ++= Seq(
         CommonDepsScalaJS.scalaTest.value
     ),
