@@ -295,7 +295,6 @@ object Circe {
     implicit def impBlob(inputStream: InputStream): Json = fromString(inputStream2Sting(inputStream))
     implicit def impBlob(inputStream: Option[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.get))
     implicit def impBlob(inputStream: Array[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.head))
-    implicit def impBlob1(value: Array[InputStream]): Option[Json] = if (value.length == 0) None else Some(fromString(inputStream2Sting(value.head)))
 
     implicit def impLong(long: Long): Json = fromLong(long)
     implicit def impLongopt(long: Option[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.get)
