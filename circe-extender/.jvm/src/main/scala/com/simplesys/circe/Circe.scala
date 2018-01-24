@@ -287,11 +287,7 @@ object Circe {
     implicit def impString(str: String): Json = fromString(str)
     implicit def impStringopt(str: Option[String]): Json = if (str.isEmpty) Json.Null else fromString(str.get)
     implicit def impStringarr(str: Array[String]): Json = if (str.isEmpty) Json.Null else fromString(str.head)
-
-    implicit def impClob(clob: String): Json = fromString(clob)
-    implicit def impClobopt(clob: Option[String]): Json = if (clob.isEmpty) Json.Null else fromString(clob.get)
-    implicit def impClobarr(clob: Array[String]): Json = if (clob.isEmpty) Json.Null else fromString(clob.head)
-
+    
     implicit def impBlob(inputStream: InputStream): Json = fromString(inputStream2Sting(inputStream))
     implicit def impBlob(inputStream: Option[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.get))
     implicit def impBlob(inputStream: Array[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.head))
