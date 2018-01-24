@@ -1,6 +1,6 @@
 package com.simplesys.circe
 
-import java.io.InputStream
+import java.io.{InputStream, StringWriter}
 import java.time.LocalDateTime
 
 import io.circe.Json._
@@ -10,6 +10,14 @@ import org.apache.commons.io.IOUtils
 object Circe {
     implicit class StringOpt(string: String) {
         def toInputStream: InputStream = IOUtils.toInputStream(string, "UTF-8")
+    }
+
+    class InputStreamOpt(inputStream: InputStream) {
+        def asString: String = {
+            val writer = new StringWriter
+            IOUtils.copy(inputStream, writer, "UTF-8")
+            writer.toString
+        }
     }
 
     implicit class CirceOpt(json: Json) {
@@ -285,6 +293,14 @@ object Circe {
     implicit def impString(str: String): Json = fromString(str)
     implicit def impStringopt(str: Option[String]): Json = if (str.isEmpty) Json.Null else fromString(str.get)
     implicit def impStringarr(str: Array[String]): Json = if (str.isEmpty) Json.Null else fromString(str.head)
+
+    implicit def impClob(clob: String): Json = fromString(clob)
+    implicit def impClobopt(clob: Option[String]): Json = if (clob.isEmpty) Json.Null else fromString(clob.get)
+    implicit def impClobarr(clob: Array[String]): Json = if (clob.isEmpty) Json.Null else fromString(clob.head)
+
+    implicit def impBlob(inputStream: InputStream): Json = fromString(new InputStreamOpt(inputStream).asString)
+    implicit def impBlob(inputStream: Option[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(new InputStreamOpt(inputStream.get).asString)
+    implicit def impBlob(inputStream: Array[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(new InputStreamOpt(inputStream.head).asString)
 
     implicit def impLong(long: Long): Json = fromLong(long)
     implicit def impLongopt(long: Option[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.get)
