@@ -1,6 +1,5 @@
 package com.simplesys.circe
 
-import java.io.InputStream
 import java.time.LocalDateTime
 
 import io.circe.Json._
