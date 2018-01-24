@@ -7,14 +7,12 @@ import io.circe.Json._
 import io.circe.{HCursor, Json, JsonObject, Printer}
 import org.apache.commons.io.IOUtils
 
-object Circe {
-    implicit class StringOpt(string: String) {
-        def toInputStream: InputStream = IOUtils.toInputStream(string, "UTF-8")
-    }
 
-    implicit class InputStreamOpt(stream: InputStream) {
-        def asString: String = IOUtils.toString(stream, "UTF-8")
-    }
+object Circe {
+
+    def string2InputStream(string: String): InputStream = IOUtils.toInputStream(string, "UTF-8")
+
+    def inputStream2Sting(stream: InputStream) = IOUtils.toString(stream, "UTF-8")
 
     implicit class CirceOpt(json: Json) {
 
@@ -64,12 +62,12 @@ object Circe {
         }
 
         def getBlob(key: String): InputStream = cursor.downField(key).as[String] match {
-            case Right(x) ⇒ x.toInputStream
+            case Right(x) ⇒ string2InputStream(x)
             case Left(_) ⇒ throw new RuntimeException(s"Key $key not found.")
         }
 
         def getBlobOpt(key: String): Option[InputStream] = cursor.downField(key).as[String] match {
-            case Right(x) ⇒ Some(x.toInputStream)
+            case Right(x) ⇒ Some(string2InputStream(x))
             case Left(_) ⇒ None
         }
 
@@ -294,10 +292,10 @@ object Circe {
     implicit def impClobopt(clob: Option[String]): Json = if (clob.isEmpty) Json.Null else fromString(clob.get)
     implicit def impClobarr(clob: Array[String]): Json = if (clob.isEmpty) Json.Null else fromString(clob.head)
 
-    implicit def impBlob(inputStream: InputStream): Json = fromString(new InputStreamOpt(inputStream).asString)
-    implicit def impBlob(inputStream: Option[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(new InputStreamOpt(inputStream.get).asString)
-    implicit def impBlob(inputStream: Array[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(new InputStreamOpt(inputStream.head).asString)
-    implicit def impBlob1(value: Array[InputStream]): Option[Json] = if (value.length == 0) None else Some(fromString(new InputStreamOpt(value.head).asString))
+    implicit def impBlob(inputStream: InputStream): Json = fromString(inputStream2Sting(inputStream))
+    implicit def impBlob(inputStream: Option[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.get))
+    implicit def impBlob(inputStream: Array[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.head))
+    implicit def impBlob1(value: Array[InputStream]): Option[Json] = if (value.length == 0) None else Some(fromString(inputStream2Sting(value.head)))
 
     implicit def impLong(long: Long): Json = fromLong(long)
     implicit def impLongopt(long: Option[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.get)
