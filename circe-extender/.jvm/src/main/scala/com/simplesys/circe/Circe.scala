@@ -12,12 +12,8 @@ object Circe {
         def toInputStream: InputStream = IOUtils.toInputStream(string, "UTF-8")
     }
 
-    class InputStreamOpt(inputStream: InputStream) {
-        def asString: String = {
-            val writer = new StringWriter
-            IOUtils.copy(inputStream, writer, "UTF-8")
-            writer.toString
-        }
+    implicit class InputStreamOpt(stream: InputStream) {
+        def asString: String = IOUtils.toString(stream, "UTF-8")
     }
 
     implicit class CirceOpt(json: Json) {
