@@ -1,11 +1,13 @@
 package com.simplesys.circe
 
+import java.io.InputStream
 import java.time.LocalDateTime
 
 import io.circe.Json._
 import io.circe.{HCursor, Json, JsonObject, Printer}
 
 object Circe {
+
     implicit class CirceOpt(json: Json) {
 
         def noSpaces1 = Printer(

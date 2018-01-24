@@ -1,11 +1,17 @@
 package com.simplesys.circe
 
+import java.io.InputStream
 import java.time.LocalDateTime
 
 import io.circe.Json._
 import io.circe.{HCursor, Json, JsonObject, Printer}
+import org.apache.commons.io.IOUtils
 
 object Circe {
+    implicit class StringOpt(string: String) {
+        def toInputStream: InputStream = IOUtils.toInputStream(string, "UTF-8")
+    }
+
     implicit class CirceOpt(json: Json) {
 
         def noSpaces1 = Printer(
@@ -49,6 +55,26 @@ object Circe {
         }
 
         def getStringOpt(key: String): Option[String] = cursor.downField(key).as[String] match {
+            case Right(x) ⇒ Some(x)
+            case Left(_) ⇒ None
+        }
+
+        def getBlob(key: String): InputStream = cursor.downField(key).as[String] match {
+            case Right(x) ⇒ x.toInputStream
+            case Left(_) ⇒ throw new RuntimeException(s"Key $key not found.")
+        }
+
+        def getBlobOpt(key: String): Option[InputStream] = cursor.downField(key).as[String] match {
+            case Right(x) ⇒ Some(x.toInputStream)
+            case Left(_) ⇒ None
+        }
+
+        def getClob(key: String): String = cursor.downField(key).as[String] match {
+            case Right(x) ⇒ x
+            case Left(_) ⇒ throw new RuntimeException(s"Key $key not found.")
+        }
+
+        def getClobOpt(key: String): Option[String] = cursor.downField(key).as[String] match {
             case Right(x) ⇒ Some(x)
             case Left(_) ⇒ None
         }

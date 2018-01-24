@@ -38,6 +38,7 @@ lazy val `circe-extender` = crossProject(JSPlatform, JVMPlatform)
   .settings(CommonSettings.defaultSettings)
   .jvmSettings(
       libraryDependencies ++= Seq(
+          CommonDeps.apacheCommonsIO,
           CommonDeps.akkaHttpCirce,
           CommonDeps.scalaTest
       )
