@@ -114,6 +114,16 @@ object Circe {
             case Left(_) ⇒ None
         }
 
+        def getBigDecimal(key: String): BigDecimal = cursor.downField(key).as[BigDecimal] match {
+            case Right(x) ⇒ x
+            case Left(failure) ⇒ throw failure
+        }
+
+        def getBigDecimalOpt(key: String): Option[BigDecimal] = cursor.downField(key).as[BigDecimal] match {
+            case Right(x) ⇒ Some(x)
+            case Left(_) ⇒ None
+        }
+
         def getJsonList(key: String): Vector[Json] = cursor.downField(key).as[Json] match {
             case Right(x) ⇒ x.asArray match {
                 case None ⇒ Vector.empty
@@ -193,6 +203,10 @@ object Circe {
 
         def getBooleanOpt(key: String): Option[Boolean] = json.getOrElse(Json.Null).getBooleanOpt(key)
 
+        def getBigDecimal(key: String): BigDecimal = json.getOrElse(Json.Null).getBigDecimal(key)
+
+        def getBigDecimalOpt(key: String): Option[BigDecimal] = json.getOrElse(Json.Null).getBigDecimalOpt(key)
+
         def getJsonList(key: String): Vector[Json] = json.getOrElse(Json.Null).getJsonList(key)
 
         def getJsonListOpt(key: String): Option[Vector[Json]] = json.getOrElse(Json.Null).getJsonListOpt(key)
@@ -242,6 +256,10 @@ object Circe {
 
         def getBooleanOpt(key: String): Option[Boolean] = fromJsonObject(jsonObject).getBooleanOpt(key)
 
+        def getBigDecimal(key: String): BigDecimal = fromJsonObject(jsonObject).getBigDecimal(key)
+
+        def getBigDecimalOpt(key: String): Option[BigDecimal] = fromJsonObject(jsonObject).getBigDecimalOpt(key)
+
         def getJsonList(key: String): Vector[Json] = fromJsonObject(jsonObject).getJsonList(key)
 
         def getJsonListOpt(key: String): Option[Vector[Json]] = fromJsonObject(jsonObject).getJsonListOpt(key)
@@ -265,13 +283,17 @@ object Circe {
     implicit def impLongopt(long: Option[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.get)
     implicit def impLongarr(long: Array[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.head)
 
-    implicit def impBoolean(long: Boolean): Json = fromBoolean(long)
-    implicit def impBooleanopt(long: Option[Boolean]): Json = if (long.isEmpty) Json.Null else fromBoolean(long.get)
-    implicit def impBooleanarr(long: Array[Boolean]): Json = if (long.isEmpty) Json.Null else fromBoolean(long.head)
+    implicit def impBoolean(boolean: Boolean): Json = fromBoolean(boolean)
+    implicit def impBooleanopt(boolean: Option[Boolean]): Json = if (boolean.isEmpty) Json.Null else fromBoolean(boolean.get)
+    implicit def impBooleanarr(boolean: Array[Boolean]): Json = if (boolean.isEmpty) Json.Null else fromBoolean(boolean.head)
 
-    implicit def impInt(long: Int): Json = fromInt(long)
-    implicit def impIntopt(long: Option[Int]): Json = if (long.isEmpty) Json.Null else fromInt(long.get)
-    implicit def impIntarr(long: Array[Int]): Json = if (long.isEmpty) Json.Null else fromInt(long.head)
+    implicit def impInt(int: Int): Json = fromInt(int)
+    implicit def impIntopt(int: Option[Int]): Json = if (int.isEmpty) Json.Null else fromInt(int.get)
+    implicit def impIntarr(int: Array[Int]): Json = if (int.isEmpty) Json.Null else fromInt(int.head)
+
+    implicit def impBigDecimal(bigDecimal: BigDecimal): Json = fromBigDecimal(bigDecimal)
+    implicit def impBigDecimalopt(bigDecimal: Option[BigDecimal]): Json = if (bigDecimal.isEmpty) Json.Null else fromBigDecimal(bigDecimal.get)
+    implicit def impBigDecimalarr(bigDecimal: Array[BigDecimal]): Json = if (bigDecimal.isEmpty) Json.Null else fromBigDecimal(bigDecimal.head)
 
     implicit def impDouble(double: Double): Json = fromDouble(double) getOrElse (Json.Null)
     implicit def impDoubleopt(double: Option[Double]): Json = if (double.isEmpty) Json.Null else fromDouble(double.get).getOrElse(Json.Null)
@@ -282,4 +304,5 @@ object Circe {
     implicit def impLocalDateTime(localDateTime: Array[LocalDateTime]): Json = if (localDateTime.isEmpty) Json.Null else fromString(localDateTime2Str(localDateTime.head))
 
     implicit def seq2Json(seq: Seq[(String, Json)]): Json = fromJsonObject(JsonObject.fromIterable(seq))
+    
 }

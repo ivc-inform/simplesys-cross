@@ -10,7 +10,7 @@ object PluginDeps {
 object CommonDeps {
     val logbackClassic = "ch.qos.logback" % "logback-classic" % versions.logbackVersion
 
-    val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.18.2-SNAPSHOT"
+    val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.18.3"
     val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
     val scalaTest = "org.scalatest" %% "scalatest" % versions.scalaTestVersion % Test
     val apacheCommonsIO = "commons-io" % "commons-io" % versions.apacheCommonsIOVersion
@@ -22,4 +22,5 @@ object CommonDeps {
         val apacheCommonsIOVersion = "2.6"
     }
 }
+
 

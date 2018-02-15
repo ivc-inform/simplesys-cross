@@ -11,7 +11,14 @@ object DSResponse {
 
 }
 
-case class DSResponse(data: Json, status: Int, totalRows: Option[Int] = None)
+case class DSResponse(
+                       data: Json,
+                       status: Int,
+                       totalRows: Option[Int] = None,
+                       startRow: Option[Int] = None,
+                       endRow: Option[Int] = None,
+                       urlExportFile: Option[String] = None
+                     )
 
 case class Error(error: ErrorData)
 

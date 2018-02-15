@@ -141,6 +141,16 @@ object Circe {
             case Left(_) ⇒ None
         }
 
+        def getBigDecimal(key: String): BigDecimal = cursor.downField(key).as[BigDecimal] match {
+            case Right(x) ⇒ x
+            case Left(failure) ⇒ throw failure
+        }
+
+        def getBigDecimalOpt(key: String): Option[BigDecimal] = cursor.downField(key).as[BigDecimal] match {
+            case Right(x) ⇒ Some(x)
+            case Left(_) ⇒ None
+        }
+
         def getJsonList(key: String): Vector[Json] = cursor.downField(key).as[Json] match {
             case Right(x) ⇒ x.asArray match {
                 case None ⇒ Vector.empty
@@ -220,6 +230,10 @@ object Circe {
 
         def getBooleanOpt(key: String): Option[Boolean] = json.getOrElse(Json.Null).getBooleanOpt(key)
 
+        def getBigDecimal(key: String): BigDecimal = json.getOrElse(Json.Null).getBigDecimal(key)
+
+        def getBigDecimalOpt(key: String): Option[BigDecimal] = json.getOrElse(Json.Null).getBigDecimalOpt(key)
+
         def getJsonList(key: String): Vector[Json] = json.getOrElse(Json.Null).getJsonList(key)
 
         def getJsonListOpt(key: String): Option[Vector[Json]] = json.getOrElse(Json.Null).getJsonListOpt(key)
@@ -269,6 +283,10 @@ object Circe {
 
         def getBooleanOpt(key: String): Option[Boolean] = fromJsonObject(jsonObject).getBooleanOpt(key)
 
+        def getBigDecimal(key: String): BigDecimal = fromJsonObject(jsonObject).getBigDecimal(key)
+
+        def getBigDecimalOpt(key: String): Option[BigDecimal] = fromJsonObject(jsonObject).getBigDecimalOpt(key)
+
         def getJsonList(key: String): Vector[Json] = fromJsonObject(jsonObject).getJsonList(key)
 
         def getJsonListOpt(key: String): Option[Vector[Json]] = fromJsonObject(jsonObject).getJsonListOpt(key)
@@ -287,7 +305,7 @@ object Circe {
     implicit def impString(str: String): Json = fromString(str)
     implicit def impStringopt(str: Option[String]): Json = if (str.isEmpty) Json.Null else fromString(str.get)
     implicit def impStringarr(str: Array[String]): Json = if (str.isEmpty) Json.Null else fromString(str.head)
-    
+
     implicit def impBlob(inputStream: InputStream): Json = fromString(inputStream2Sting(inputStream))
     implicit def impBlob(inputStream: Option[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.get))
     implicit def impBlob(inputStream: Array[InputStream]): Json = if (inputStream.isEmpty) Json.Null else fromString(inputStream2Sting(inputStream.head))
@@ -296,9 +314,13 @@ object Circe {
     implicit def impLongopt(long: Option[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.get)
     implicit def impLongarr(long: Array[Long]): Json = if (long.isEmpty) Json.Null else fromLong(long.head)
 
-    implicit def impBoolean(long: Boolean): Json = fromBoolean(long)
-    implicit def impBooleanopt(long: Option[Boolean]): Json = if (long.isEmpty) Json.Null else fromBoolean(long.get)
-    implicit def impBooleanarr(long: Array[Boolean]): Json = if (long.isEmpty) Json.Null else fromBoolean(long.head)
+    implicit def impBoolean(boolean: Boolean): Json = fromBoolean(boolean)
+    implicit def impBooleanopt(boolean: Option[Boolean]): Json = if (boolean.isEmpty) Json.Null else fromBoolean(boolean.get)
+    implicit def impBooleanarr(boolean: Array[Boolean]): Json = if (boolean.isEmpty) Json.Null else fromBoolean(boolean.head)
+
+    implicit def impBigDecimal(long: BigDecimal): Json = fromBigDecimal(long)
+    implicit def impBigDecimalopt(long: Option[BigDecimal]): Json = if (long.isEmpty) Json.Null else fromBigDecimal(long.get)
+    implicit def impBigDecimalarr(long: Array[BigDecimal]): Json = if (long.isEmpty) Json.Null else fromBigDecimal(long.head)
 
     implicit def impInt(long: Int): Json = fromInt(long)
     implicit def impIntopt(long: Option[Int]): Json = if (long.isEmpty) Json.Null else fromInt(long.get)
