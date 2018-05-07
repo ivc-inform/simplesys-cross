@@ -7,7 +7,7 @@ object CommonSettings {
 
         val name = "cross-projects"
         val version = "1.0.0.6"
-        val scalaVersion = "2.12.4"
+        val scalaVersion = "2.12.5"
         val organization = "com.simplesys.cross"
         val scalacOptions = Seq(
             "-feature",
@@ -31,11 +31,11 @@ object CommonSettings {
     val publishSettings = inThisBuild(defaultSettings ++ Seq(
         publishMavenStyle := true,
         publishTo := {
-            val corporateRepo = "http://maven-repo.mfms/"
+            val corporateRepo = "http://toucan.simplesys.lan/"
             if (version.value.endsWith("-SNAPSHOT"))
-                Some("snapshots" at corporateRepo + "nexus/content/repositories/mfmd-snapshot/")
+                Some("snapshots" at corporateRepo + "artifactory/libs-snapshot-local")
             else
-                Some("releases" at corporateRepo + "nexus/content/repositories/mfmd-release/")
+                Some("releases" at corporateRepo + "artifactory/libs-release-local")
         },
         credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
     ))
